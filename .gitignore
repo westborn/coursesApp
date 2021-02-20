@@ -1,0 +1,9 @@
+/node_modules/
+/public/build/
+.vscode/
+.DS_Store
+package-lock.json
+yarn.lock
+
+/src/SECRET/
+.env
