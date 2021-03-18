@@ -47,6 +47,9 @@
     <LoadingSpinner />
   {:else}
     <CourseList {courses} />
+    <!-- Spacer to keep componets away from each other -->
+    <div class="mt-24" />
+
     <!-- container for all cards -->
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {#each courses as course}
