@@ -4,23 +4,11 @@
   let sortedCourseData = courses
   let selectedSortBy = 'title'
   let ascendingOrder = true
+  let selectedCourses = []
 
-  function selectedClick(courseId, e) {
-    console.log(e)
-    console.log(e.target.getAttribute('data-courseId'))
-
-    console.log(courseId)
-  }
-
-  // SORT BY STRINGs
   const sortByString = sortField => {
-    sortedCourseData = sortedCourseData.sort((obj1, obj2) => {
-      if (obj1[sortField] < obj2[sortField]) {
-        return -1
-      } else if (obj1[sortField] > obj2[sortField]) {
-        return 1
-      }
-      return 0 //string code values are equal
+    sortedCourseData = sortedCourseData.sort((a, b) => {
+      return a[sortField].localeCompare(b[sortField])
     })
     if (!ascendingOrder) {
       sortedCourseData = sortedCourseData.reverse()
@@ -40,7 +28,7 @@
       </span>
       {#if selectedSortBy === 'courseStatus'}
         <span>
-          {@html ascendingOrder ? '&#9661;' : '&#9651;'}
+          {@html ascendingOrder ? '&#9651;' : '&#9661;'}
         </span>
       {/if}
     </th>
@@ -53,7 +41,7 @@
       </span>
       {#if selectedSortBy === 'title'}
         <span>
-          {@html ascendingOrder ? '&#9661;' : '&#9651;'}
+          {@html ascendingOrder ? '&#9651;' : '&#9661;'}
         </span>
       {/if}
     </th>
@@ -66,7 +54,7 @@
       </span>
       {#if selectedSortBy === 'presenter'}
         <span>
-          {@html ascendingOrder ? '&#9661;' : '&#9651;'}
+          {@html ascendingOrder ? '&#9651;' : '&#9661;'}
         </span>
       {/if}
     </th>
@@ -77,14 +65,15 @@
     <th class="w-1/12 text-left">Cost</th>
   </tr>
 
-  {#each sortedCourseData as course}
+  {#each sortedCourseData as course (course.courseId)}
     <tr>
       <td>
-        <label class="inline-flex items-center" on:change={e => selectedClick(course.courseId, e)}>
+        <label class="inline-flex items-center">
           <input
+            bind:group={selectedCourses}
+            value={course.courseId}
             type="checkbox"
             class="w-4 h-4 rounded form-checkbox bg-u3a-green-200 text-u3a-green-900"
-            data-courseId={course.courseId}
           />
           <span class="ml-2">{course.courseStatus}</span>
         </label>

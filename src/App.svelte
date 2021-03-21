@@ -4,6 +4,7 @@
   import EnrollmentsPage from './PAGES/Enrollments.svelte'
   import SessionsPage from './PAGES/Sessions.svelte'
   import StatusPage from './PAGES/Status.svelte'
+  import PeoplePage from './PAGES/People.svelte'
   import ColorsPage from './PAGES/Colors.svelte'
 
   const webpages = [
@@ -11,6 +12,7 @@
     { name: 'Enrollments', component: EnrollmentsPage, color: 'u3a-blue' },
     { name: 'Sessions', component: SessionsPage, color: 'u3a-orange' },
     { name: 'Status', component: StatusPage, color: 'u3a-orange-400' },
+    { name: 'People', component: PeoplePage, color: 'u3a-blue-400' },
     { name: 'Colors', component: ColorsPage, color: 'gray-200' },
   ]
 
