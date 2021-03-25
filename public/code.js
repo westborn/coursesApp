@@ -34,6 +34,21 @@ function getSheet(sheetName) {
   return JSON.stringify(dataObj)
 }
 
+function addCoursesToCalendar(data) {
+  const selectedCourses = [...data]
+  console.log(selectedCourses)
+  return getSheet('Courses')
+}
+
+function findCalendars(name) {
+  var calendars = CalendarApp.getAllCalendars()
+  Logger.log('This user owns or is subscribed to %s calendars.', calendars.length)
+  // var calendars = CalendarApp.getCalendarsByName('U3A draft bookings');
+  calendars.forEach(cal => {
+    console.log(cal.getName(), cal.getId())
+  })
+}
+
 // function test() {
 //   const ss = SpreadsheetApp.getActiveSpreadsheet()
 //   const data = ss.getSheetByName('activities').getRange('c3').getValues()

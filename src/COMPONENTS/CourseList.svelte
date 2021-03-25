@@ -1,4 +1,7 @@
 <script>
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
+
   export let courses
 
   let sortedCourseData = courses
@@ -16,6 +19,13 @@
     selectedSortBy = sortField
   }
 </script>
+
+<button
+  class="px-4 py-2 m-4 font-semibold bg-u3a-green-700 rounded-xl hover:bg-u3a-green-900"
+  on:click={() => dispatch('createCalendarEntries', selectedCourses)}
+>
+  Create Calendar entries for selected courses
+</button>
 
 <table class="text-sm divide-y divide-gray-200 table-auto max-w-1024">
   <tr>

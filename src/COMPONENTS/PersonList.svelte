@@ -5,20 +5,20 @@
   let selectedSortBy = 'surname'
   let ascendingOrder = true
 
-  const sortByString = sortField => {
+  const sortByStringTwoFields = (sortField1, sortField2) => {
     sortedPersonData = sortedPersonData.sort((a, b) => {
-      return a[sortField].localeCompare(b[sortField])
+      return a[sortField1].localeCompare(b[sortField1]) || a[sortField2].localeCompare(b[sortField2])
     })
     if (!ascendingOrder) {
       sortedPersonData = sortedPersonData.reverse()
     }
-    selectedSortBy = sortField
+    selectedSortBy = sortField1
   }
 </script>
 
 <table class="text-sm divide-y divide-gray-200 table-auto max-w-1024">
   <tr>
-    <th class="w-2/12 text-left" on:click={() => sortByString('personStatus')}>
+    <th class="w-2/12 text-left" on:click={() => sortByStringTwoFields('personStatus', 'surname')}>
       <span
         class="px-2 font-semibold rounded-full bg-u3a-green-400"
         on:click={() => (ascendingOrder = !ascendingOrder)}
@@ -31,7 +31,7 @@
         </span>
       {/if}
     </th>
-    <th class="w-2/12 text-left" on:click={() => sortByString('surname')}>
+    <th class="w-2/12 text-left" on:click={() => sortByStringTwoFields('surname', 'firstName')}>
       <span
         class="px-2 font-semibold rounded-full bg-u3a-green-400"
         on:click={() => (ascendingOrder = !ascendingOrder)}
@@ -44,7 +44,7 @@
         </span>
       {/if}
     </th>
-    <th class="w-2/12 text-left" on:click={() => sortByString('firstName')}>
+    <th class="w-2/12 text-left" on:click={() => sortByStringTwoFields('firstName', 'surname')}>
       <span
         class="px-2 font-semibold rounded-full bg-u3a-green-400"
         on:click={() => (ascendingOrder = !ascendingOrder)}

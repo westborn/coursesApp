@@ -1,61 +1,82 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import CourseCard from '../COMPONENTS/CourseCard.svelte'
   import CourseList from '../COMPONENTS/CourseList.svelte'
 
   import LoadingSpinner from '../UI/LoadingSpinner.svelte'
   import Error from '../UI/Error.svelte'
 
-  import { COURSES } from '../SECRET/DATA.js'
+  import { scriptRun } from '../COMPONENTS/scriptRun.js'
 
-  const LOCAL = true
+  function doSelectCourses() {
+    courseState = 'selectCourses'
+  }
 
-  onMount(() => {
-    if (LOCAL) {
-      console.log('LOCAL')
-      courses = [...COURSES]
-      setTimeout(() => (loading = false), 200)
-    } else {
-      console.log('SPREADSHEET')
+  function calendarReturned(data) {
+    // TODO -select the calendar to write to.
+    //      -retrieve current entries
+    //      -update existing and/or create new
+    listOfCalendars = [...data]
+  }
+
+  function addCoursesToCalendar(event) {
+    loading = true
+    selectedCourses = event.detail
+
+    try {
       /* @ts-ignore */
-      google.script.run.withSuccessHandler(populateCourses).getSheet('Courses')
+      google.script.run.withSuccessHandler(calendarReturned).getCalendarList()
+      /* @ts-ignore */
+      google.script.run.withSuccessHandler(populateCourses).addCoursesToCalendar(selectedCourses)
+    } catch {
+      console.log('running local - no calendar selected')
     }
+
+    courseState = 'addToCalendar'
+  }
+
+  let courses = []
+  let getCourses = scriptRun('getSheet', 'Courses').then(result => {
+    courses = JSON.parse(result)
+    return courses
   })
 
-  function populateCourses(data) {
-    courses = JSON.parse(data)
-    loading = false
-  }
-
-  function clearError() {
-    error = null
-  }
-
+  let courseState = 'selectCourses'
+  let selectedCourses = []
   let loading = true
-  let error = null
-  // let error = { message: 'error text' }
-  let courses = []
+  let listOfCalendars = []
 </script>
 
 <main class="mx-auto mt-2">
-  {#if error}
-    <Error message={error.message} on:cancel={clearError} />
+  <!-- Present the Courses list and allow selection to add these to calendar -->
+  {#if courseState === 'selectCourses'}
+    {#await getCourses}
+      <LoadingSpinner />
+    {:then data}
+      <CourseList {courses} on:createCalendarEntries={addCoursesToCalendar} />
+
+      <div class="mt-24" />
+      <!-- container for all cards -->
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {#each courses as course}
+          <CourseCard {course} />
+        {/each}
+      </div>
+    {:catch error}
+      <Error message={error} on:cancel={() => console.log(error)} />
+    {/await}
   {/if}
 
-  {#if loading}
-    <LoadingSpinner />
-  {:else}
-    <CourseList {courses} />
-    <!-- Spacer to keep componets away from each other -->
-    <div class="mt-24" />
-
-    <!-- container for all cards -->
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {#each courses as course}
-        <CourseCard {course} />
-      {/each}
+  <!-- Process selected enties and create calendar entrie for them -->
+  {#if courseState === 'addToCalendar'}
+    <div class="text-2xl">
+      <pre>{JSON.stringify(selectedCourses, null,2)}</pre>
+      <pre>{JSON.stringify(listOfCalendars, null,2)}</pre>
     </div>
-    <!-- container for List -->
+    <button
+      class="px-4 py-2 m-4 font-semibold bg-u3a-green-700 rounded-xl hover:bg-u3a-green-900"
+      on:click={() => doSelectCourses()}
+    >
+      Cancel
+    </button>
   {/if}
 </main>
