@@ -40,13 +40,10 @@ function addCoursesToCalendar(data) {
   return getSheet('Courses')
 }
 
-function findCalendars(name) {
+function getAllCalendars() {
   var calendars = CalendarApp.getAllCalendars()
-  Logger.log('This user owns or is subscribed to %s calendars.', calendars.length)
-  // var calendars = CalendarApp.getCalendarsByName('U3A draft bookings');
-  calendars.forEach(cal => {
-    console.log(cal.getName(), cal.getId())
-  })
+  const allCalendars = calendars.map(cal => ({ summary: cal.getName(), id: cal.getId() }))
+  return JSON.stringify(allCalendars)
 }
 
 // function test() {

@@ -7,53 +7,41 @@
 
   import { scriptRun } from '../COMPONENTS/scriptRun.js'
 
-  function doSelectCourses() {
-    courseState = 'selectCourses'
-  }
-
   function calendarReturned(data) {
-    // TODO -select the calendar to write to.
+    // TODO -select the calendar to write selecetd entries to
     //      -retrieve current entries
     //      -update existing and/or create new
-    listOfCalendars = [...data]
   }
 
   function addCoursesToCalendar(event) {
-    loading = true
     selectedCourses = event.detail
-
     try {
-      /* @ts-ignore */
-      google.script.run.withSuccessHandler(calendarReturned).getCalendarList()
-      /* @ts-ignore */
-      google.script.run.withSuccessHandler(populateCourses).addCoursesToCalendar(selectedCourses)
+      scriptRun('getAllCalendars').then(result => {
+        listOfCalendars = result
+      })
     } catch {
       console.log('running local - no calendar selected')
     }
-
     courseState = 'addToCalendar'
   }
 
-  let courses = []
-  let getCourses = scriptRun('getSheet', 'Courses').then(result => {
-    courses = JSON.parse(result)
-    return courses
-  })
+  // let getCourses = scriptRun('getSheet', 'Courses').then(result => {
+  //   courses = JSON.parse(result)
+  //   return courses
+  // })
 
   let courseState = 'selectCourses'
   let selectedCourses = []
-  let loading = true
   let listOfCalendars = []
 </script>
 
 <main class="mx-auto mt-2">
-  <!-- Present the Courses list and allow selection to add these to calendar -->
+  <!-- Display the Courses list and allow selection to add them to a calendar -->
   {#if courseState === 'selectCourses'}
-    {#await getCourses}
+    {#await scriptRun('getSheet', 'Courses')}
       <LoadingSpinner />
-    {:then data}
+    {:then courses}
       <CourseList {courses} on:createCalendarEntries={addCoursesToCalendar} />
-
       <div class="mt-24" />
       <!-- container for all cards -->
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -66,17 +54,12 @@
     {/await}
   {/if}
 
-  <!-- Process selected enties and create calendar entrie for them -->
+  <!-- Process selected enties and create calendar entries for them -->
   {#if courseState === 'addToCalendar'}
     <div class="text-2xl">
       <pre>{JSON.stringify(selectedCourses, null,2)}</pre>
       <pre>{JSON.stringify(listOfCalendars, null,2)}</pre>
     </div>
-    <button
-      class="px-4 py-2 m-4 font-semibold bg-u3a-green-700 rounded-xl hover:bg-u3a-green-900"
-      on:click={() => doSelectCourses()}
-    >
-      Cancel
-    </button>
+    <button class="m-4 btn btn-primary" on:click={() => (courseState = 'selectCourses')}> Cancel </button>
   {/if}
 </main>

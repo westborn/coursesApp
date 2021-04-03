@@ -21,42 +21,41 @@ module.exports = {
       serif: defaultTheme.fontFamily.serif,
     },
     extend: {
+      // http://sitehero.nl/uicolors to generate colors from the base
       colors: {
-        'u3a-green': 'rgba(114, 169, 81, 1)',
-        'u3a-green-100': 'rgba(114, 169, 81, 0.1)',
-        'u3a-green-200': 'rgba(114, 169, 81, 0.2)',
-        'u3a-green-300': 'rgba(114, 169, 81, 0.3)',
-        'u3a-green-400': 'rgba(114, 169, 81, 0.4)',
-        'u3a-green-500': 'rgba(114, 169, 81, 0.5)',
-        'u3a-green-600': 'rgba(114, 169, 81, 0.6)',
-        'u3a-green-700': 'rgba(114, 169, 81, 0.7)',
-        'u3a-green-800': 'rgba(114, 169, 81, 0.8)',
-        'u3a-green-900': 'rgba(114, 169, 81, 0.9)',
-        'u3a-orange': 'rgba(210, 95, 21, 1)',
-        'u3a-orange-100': 'rgba(210, 95, 21, 0.1)',
-        'u3a-orange-200': 'rgba(210, 95, 21, 0.2)',
-        'u3a-orange-300': 'rgba(210, 95, 21, 0.3)',
-        'u3a-orange-400': 'rgba(210, 95, 21, 0.4)',
-        'u3a-orange-500': 'rgba(210, 95, 21, 0.5)',
-        'u3a-orange-600': 'rgba(210, 95, 21, 0.6)',
-        'u3a-orange-700': 'rgba(210, 95, 21, 0.7)',
-        'u3a-orange-800': 'rgba(210, 95, 21, 0.8)',
-        'u3a-orange-900': 'rgba(210, 95, 21, 0.9)',
-        'u3a-blue': 'rgba(0, 194, 223, 1)',
-        'u3a-blue-100': 'rgba(0, 194, 223, 0.1)',
-        'u3a-blue-200': 'rgba(0, 194, 223, 0.2)',
-        'u3a-blue-300': 'rgba(0, 194, 223, 0.3)',
-        'u3a-blue-400': 'rgba(0, 194, 223, 0.4)',
-        'u3a-blue-500': 'rgba(0, 194, 223, 0.5)',
-        'u3a-blue-600': 'rgba(0, 194, 223, 0.6)',
-        'u3a-blue-700': 'rgba(0, 194, 223, 0.7)',
-        'u3a-blue-800': 'rgba(0, 194, 223, 0.8)',
-        'u3a-blue-900': 'rgba(0, 194, 223, 0.9)',
+        primary: {
+          base: '#72a951', //hsl(97, 35%, 49%)
+          50: '#f4f8f1', //  hsl(97, 35%, 95%)
+          100: '#eef5ea', // hsl(97, 35%, 93%)
+          200: '#d8e8cf', // hsl(97, 35%, 86%)
+          300: '#b5d2a2', // hsl(97, 35%, 72%)
+          400: '#8ebb72', // hsl(97, 35%, 59%)
+          500: '#699b4b', // hsl(97, 35%, 45%)
+          600: '#547c3c', // hsl(97, 35%, 36%)
+          700: '#42602e', // hsl(97, 35%, 27%)
+          800: '#364f26', // hsl(97, 35%, 22%)
+          900: '#314823', // hsl(97, 35%, 20%)
+        },
+        secondary: {
+          base: '#D25F15', //hsl(23, 81%, 49%)
+          50: '#fef6f1', //  hsl(23, 81%, 95%)
+          100: '#fdf0e8', // hsl(23, 81%, 93%)
+          200: '#fadecc', // hsl(23, 81%, 86%)
+          300: '#f4bc99', // hsl(23, 81%, 72%)
+          400: '#ef9862', // hsl(23, 81%, 59%)
+          500: '#e26518', // hsl(23, 81%, 45%)
+          600: '#b45113', // hsl(23, 81%, 36%)
+          700: '#8f400f', // hsl(23, 81%, 27%)
+          800: '#73340c', // hsl(23, 81%, 22%)
+          900: '#6a300b', // hsl(23, 81%, 20%)
+        },
       },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['active'],
+    },
   },
   plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/custom-forms')],
 }

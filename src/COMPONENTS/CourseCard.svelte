@@ -3,7 +3,7 @@
 </script>
 
 <!-- card -->
-<div class="rounded-lg shadow-md bg-u3a-green-300">
+<div class="rounded-lg shadow-md bg-primary-300">
   <!-- content -->
   <div class="p-2 text-gray-800">
     <h3 class="text-lg font-semibold">
